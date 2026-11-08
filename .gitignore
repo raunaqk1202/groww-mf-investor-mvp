@@ -37,3 +37,7 @@ generate_deck.py
 test_*.py
 test_*.pptx
 
+generate_*.py
+fix_*.py
+update_*.py
+verify_*.py
