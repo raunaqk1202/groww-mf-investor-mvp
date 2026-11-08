@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased font-sans;
+  }
+}
+
+/* Custom subtle scrollbars */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 9999px;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================================
+   CINEMATIC AI VIDEO ANIMATION KEYFRAMES & UTILITIES
+   ======================================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes coinDrop {
+  0% { transform: translateY(-40px) scale(0.6); opacity: 0; }
+  40% { opacity: 1; }
+  80% { transform: translateY(30px) scale(1); }
+  90% { transform: translateY(24px) scale(1.05); }
+  100% { transform: translateY(30px) scale(1); opacity: 0.9; }
+}
+
+@keyframes waterDrip {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  70% { transform: translateY(28px) scale(0.9); opacity: 0.8; }
+  100% { transform: translateY(38px) scale(0.2); opacity: 0; }
+}
+
+@keyframes rippleRing {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes bubbleRise {
+  0% { transform: translateY(20px) translateX(0); opacity: 0; }
+  20% { opacity: 0.7; }
+  80% { transform: translateY(-25px) translateX(3px); opacity: 0.7; }
+  100% { transform: translateY(-40px) translateX(-2px); opacity: 0; }
+}
+
+@keyframes laserSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes pulseGlowRing {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.25); opacity: 0.8; }
+}
+
+@keyframes particleDrift {
+  0% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
+  50% { transform: translateY(-15px) translateX(8px); opacity: 0.8; }
+  100% { transform: translateY(-30px) translateX(-5px); opacity: 0.1; }
+}
+
+@keyframes shimmerText {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes waveOscillate {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(3px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float-slow {
+  animation: floatSlow 3.5s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: floatGentle 2s ease-in-out infinite;
+}
+
+.animate-coin-drop {
+  animation: coinDrop 2.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.animate-water-drip {
+  animation: waterDrip 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ripple {
+  animation: rippleRing 1.8s ease-out infinite;
+}
+
+.animate-bubble {
+  animation: bubbleRise 2.5s ease-in-out infinite;
+}
+
+.animate-laser {
+  animation: laserSweep 2.5s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlowRing 2s ease-in-out infinite;
+}
+
+.animate-particle {
+  animation: particleDrift 4s ease-in-out infinite;
+}
+
+.animate-wave {
+  animation: waveOscillate 2s ease-in-out infinite;
+}
+
+
