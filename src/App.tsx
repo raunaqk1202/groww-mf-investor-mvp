@@ -8,6 +8,7 @@ import { InvestmentGuide } from './components/guide/InvestmentGuide';
 import { AiMitraAssistant } from './components/ai/AiMitraAssistant';
 import { UserDashboard } from './components/dashboard/UserDashboard';
 import { GrowwPay } from './components/pay/GrowwPay';
+import { FnoExplore } from './components/fno/FnoExplore';
 import { SipOrderModal } from './components/order/SipOrderModal';
 import { OrderSuccessModal } from './components/order/OrderSuccessModal';
 import { MutualFund } from './types/mutualFund';
@@ -105,6 +106,16 @@ export const App: React.FC = () => {
                   onOpenGuide={() => setActiveTab('guide')}
                   onOpenAiMitra={() => setActiveTab('ai')}
                   onSelectTab={(tab) => setActiveTab(tab)}
+                  isFirstTimeInvestor={isFirstTimeInvestor}
+                />
+              )}
+
+              {/* F&O Explore View matching original Groww app */}
+              {activeTab === 'fno' && (
+                <FnoExplore
+                  onOpenMutualFunds={() => setActiveTab('mutual_funds')}
+                  onOpenAiMitra={() => setActiveTab('ai')}
+                  onOpenGuide={() => setActiveTab('guide')}
                   isFirstTimeInvestor={isFirstTimeInvestor}
                 />
               )}

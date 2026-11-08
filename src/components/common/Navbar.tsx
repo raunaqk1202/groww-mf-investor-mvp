@@ -6,7 +6,7 @@ interface NavbarProps {
   onOpenGuide: () => void;
   isFirstTimeInvestor: boolean;
   activeTab: string;
-  onTabChange?: (tab: 'stocks' | 'mutual_funds') => void;
+  onTabChange?: (tab: 'stocks' | 'fno' | 'mutual_funds') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -17,6 +17,18 @@ export const Navbar: React.FC<NavbarProps> = ({
   onTabChange
 }) => {
   const isStocks = activeTab === 'stocks';
+  const isFno = activeTab === 'fno';
+  const displayTitle = isFno ? 'F&O' : isStocks ? 'Stocks' : 'Mutual Funds';
+
+  const handleNextTab = () => {
+    if (activeTab === 'mutual_funds' || activeTab === 'explore' || activeTab === 'guide') {
+      onTabChange?.('stocks');
+    } else if (activeTab === 'stocks') {
+      onTabChange?.('fno');
+    } else {
+      onTabChange?.('mutual_funds');
+    }
+  };
 
   return (
     <div className="sticky top-0 z-30 bg-white dark:bg-[#121212] border-b border-gray-100 dark:border-[#2B313E] px-4 py-2.5">
@@ -38,15 +50,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Section Title Dropdown / Switcher matching sample design */}
           <div className="relative">
             <button
-              onClick={() => onTabChange?.(isStocks ? 'mutual_funds' : 'stocks')}
+              onClick={handleNextTab}
               className="flex items-center gap-1.5 font-bold text-lg tracking-tight text-gray-900 dark:text-white hover:text-[#00D09C] transition-colors"
             >
-              <span>{isStocks ? 'Stocks' : 'Mutual Funds'}</span>
+              <span>{displayTitle}</span>
               <ChevronDown className="w-4 h-4 text-gray-400" />
             </button>
-            {isFirstTimeInvestor && (
+            {isFirstTimeInvestor && !isFno && (
               <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold block -mt-0.5">
                 Zero Commission • Direct
+              </span>
+            )}
+            {isFno && (
+              <span className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold block -mt-0.5">
+                Derivatives • High Risk
               </span>
             )}
           </div>
