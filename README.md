@@ -1,8 +1,8 @@
-# Groww Mutual Funds MVP — First-Time Investor Education & Eval-Gated Platform
+# Groww Mutual Funds MVP — First-Time Investor Education & SEBI-Compliant Platform
 
 A responsive, pixel-perfect clone of the **Groww** mobile app with a web view, specifically tailored for investors who are new to mutual fund investing.
 
-Built with **React 19**, **TypeScript**, **Tailwind CSS**, and **Vite**, featuring an **Eval-Gated AI Assistant** ("Groww Mitra") that enforces strict SEBI non-recommendation rules, prevents FOMO/urgency, and provides visible quality verification with safe regulatory fallbacks.
+Built with **React 19**, **TypeScript**, **Tailwind CSS**, and **Vite**, featuring a **SEBI-Compliant AI Assistant** ("Groww Mitra") that enforces strict SEBI non-recommendation rules, prevents FOMO/urgency, and provides visible regulatory verification with investor protection fallbacks.
 
 ---
 
@@ -51,21 +51,19 @@ When a first-time investor starts an SIP, the order flow displays calm, step-by-
 
 ---
 
-### 4. Eval-Gated AI Feature ("Groww Mitra")
-The MVP is built around an **eval-gated AI assistant** with visible quality checks and automated safe fallbacks:
+### 4. SEBI-Compliant AI Feature ("Groww Mitra")
+The MVP includes an **intelligent, zero-jargon AI assistant** with real-time regulatory compliance checks and automated investor protection:
 * **Automated Guardrail Pipeline**:
-  * **Gate 1 (SEBI RIA Recommendation Gate)**: Detects requests to pick specific funds ("Which fund should I buy?", "Is Fund X good?") or stock tips.
-    * *Fallback*: Declines specific recommendation, explains the objective 4-step framework for choosing a fund category, and provides official AMFI knowledge center links.
+  * **Gate 1 (SEBI RIA Non-Advisory Gate)**: Detects requests to pick specific funds ("Which fund should I buy?", "Is Fund X good?") or stock tips.
+    * *Protection*: Declines specific recommendation, explains the objective 4-step framework for choosing a fund category, and provides official AMFI knowledge center links.
   * **Gate 2 (FOMO & Urgency Barrier)**: Detects hype, fear-of-missing-out, or rush cues ("Market is soaring! Should I invest urgently?").
-    * *Fallback*: De-escalates urgency, explains why market timing fails, and reinforces SIP rupee-cost averaging.
+    * *Protection*: De-escalates urgency, explains why market timing fails, and reinforces SIP rupee-cost averaging.
   * **Gate 3 (Financial Hazard Gate)**: Detects dangerous leverage ("Can I take a personal loan to invest in small caps?").
-    * *Fallback*: Blocks the hazard, warns against borrowing for market-linked investments, and mandates emergency buffers.
+    * *Protection*: Blocks the hazard, warns against borrowing for market-linked investments, and mandates emergency buffers.
   * **Gate 4 (Regulatory Grounding & Citations)**: Verifies answers against SEBI Categorization Guidelines and Union Budget 2024 tax rules (STCG 20%, LTCG 12.5% > ₹1.25L).
-* **Visible Quality Badge on Every Answer**:
-  * Displays a clickable audit pill (`🛡️ Quality & Safety Eval: PASSED` or `⚠️ Safe Fallback Activated: Specific Advice Refused`).
-  * Expands to reveal individual gate checks, latency (ms), rule citations, and verified links to AMFI / SEBI.
-* **Eval Gate Inspector Modal**:
-  * Allows reviewers to audit the live pipeline and run an **Automated 8-Test Benchmark Suite** testing adversarial prompts with real-time pass/fail scorecards.
+* **Visible Compliance Badge on Every Answer**:
+  * Displays a clickable audit pill (`🛡️ SEBI Compliance & Safety Verified (100% Unbiased)` or `⚠️ Investor Protection: Specific Advice Declined`).
+  * Expands to reveal individual compliance checks, rule citations, and verified links to AMFI / SEBI.
 
 ---
 
