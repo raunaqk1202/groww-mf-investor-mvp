@@ -6,24 +6,29 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
-def build_single_slide_deck(filename="Groww_Mutual_Funds_MVP_Product_Presentation.pptx"):
+def build_presentation(filename="Groww_Mutual_Funds_MVP_Product_Presentation.pptx"):
     prs = pptx.Presentation()
     # 16:9 widescreen 1920x1080 pixels
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
     blank_layout = prs.slide_layouts[6]
 
-    # Create ONLY 1 slide
     slide = prs.slides.add_slide(blank_layout)
 
-    # Color Palette matching attached Problem Framing Canvas
+    # Theme Colors matching the user's palette
     BG_COLOR = RGBColor(13, 21, 39)           # Deep Midnight Navy #0D1527
     CARD_BG = RGBColor(20, 30, 52)            # Slate Blue Container #141E34
-    BORDER_CYAN = RGBColor(56, 189, 248)      # Electric Cyan #38BDF8
-    BORDER_MINT = RGBColor(0, 208, 156)       # Groww Mint #00D09C
-    BORDER_BLUE = RGBColor(96, 165, 250)      # Soft Cornflower Blue #60A5FA
-    BORDER_AMBER = RGBColor(251, 191, 36)     # Warm Amber Gold #FBBF24
     
+    # 5 cycling accent colors for columns matching the reference slide:
+    # Col 1: Cyan / Blue, Col 2: Mint / Green, Col 3: Amber / Yellow, Col 4: Coral / Red, Col 5: Purple / Soft Blue
+    COL_COLORS = [
+        RGBColor(56, 189, 248),   # Col 1: Cyan #38BDF8
+        RGBColor(0, 208, 156),    # Col 2: Mint #00D09C
+        RGBColor(251, 191, 36),   # Col 3: Amber #FBBF24
+        RGBColor(248, 113, 113),  # Col 4: Coral #F87171
+        RGBColor(129, 140, 248)   # Col 5: Indigo/Purple #818CF8
+    ]
+
     TEXT_WHITE = RGBColor(255, 255, 255)
     TEXT_MUTED = RGBColor(203, 213, 225)       # Slate Light #CBD5E1
 
@@ -33,240 +38,216 @@ def build_single_slide_deck(filename="Groww_Mutual_Funds_MVP_Product_Presentatio
     bg.fill.fore_color.rgb = BG_COLOR
     bg.line.color.rgb = BG_COLOR
 
-    def add_card(left, top, width, height, border_color):
-        shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = CARD_BG
-        shape.line.color.rgb = border_color
-        shape.line.width = Pt(2.0)
-        return shape
-
     # =========================================================================
-    # 1. TOP HEADER (Title & Subtitle)
+    # 1. TOP HEADER (Matching reference slide: Left-aligned bold header)
     # =========================================================================
-    tb_header = slide.shapes.add_textbox(Inches(0.5), Inches(0.32), Inches(12.333), Inches(0.9))
+    tb_header = slide.shapes.add_textbox(Inches(0.5), Inches(0.3), Inches(12.333), Inches(0.55))
     tf_h = tb_header.text_frame
     tf_h.word_wrap = True
     tf_h.margin_left = tf_h.margin_right = tf_h.margin_top = tf_h.margin_bottom = 0
 
     p_title = tf_h.paragraphs[0]
-    p_title.text = "Groww Mutual Funds MVP: Product Architecture, AI Evals & Usability"
+    p_title.text = "A 10-Layered Architecture That Powers First-Time Investor Retention"
     p_title.font.name = "Calibri"
-    p_title.font.size = Pt(30)
+    p_title.font.size = Pt(28)
     p_title.font.bold = True
     p_title.font.color.rgb = TEXT_WHITE
 
-    p_sub = tf_h.add_paragraph()
-    p_sub.space_before = Pt(2)
-    p_sub.text = "Solving Year-1 Churn (55%) in 18–24 Year Olds Through Safe AI Guidance and Real-Time Regulatory Evals"
-    p_sub.font.name = "Calibri"
-    p_sub.font.size = Pt(22)
-    p_sub.font.bold = True
-    p_sub.font.color.rgb = BORDER_MINT
-
-    # Coordinates for Grid
-    card_w = Inches(3.95)
-    gap_x = Inches(0.24)
-    c1_x = Inches(0.5)
-    c2_x = c1_x + card_w + gap_x
-    c3_x = c2_x + card_w + gap_x
-
-    top_y = Inches(1.35)
-    top_h = Inches(2.55)
-
     # =========================================================================
-    # 2. TOP ROW (3 Architecture Cards)
+    # 2. 10 ARCHITECTURE CARDS (2 Rows of 5 Columns)
     # =========================================================================
+    col_w = Inches(2.28)
+    gap_x = Inches(0.233)
+    start_x = Inches(0.5)
 
-    # --- TOP CARD 1: Working of the Application ---
-    add_card(c1_x, top_y, card_w, top_h, BORDER_CYAN)
-    tb_t1 = slide.shapes.add_textbox(c1_x + Inches(0.18), top_y + Inches(0.12), card_w - Inches(0.36), top_h - Inches(0.24))
-    tf_t1 = tb_t1.text_frame
-    tf_t1.word_wrap = True
-    tf_t1.margin_left = tf_t1.margin_right = tf_t1.margin_top = tf_t1.margin_bottom = 0
+    row1_y = Inches(1.0)
+    card_h = Inches(1.9)
+    row2_y = Inches(3.05)
 
-    p_t1_h = tf_t1.paragraphs[0]
-    p_t1_h.text = "1. How the App Works"
-    p_t1_h.font.name = "Calibri"
-    p_t1_h.font.size = Pt(24)
-    p_t1_h.font.bold = True
-    p_t1_h.font.color.rgb = BORDER_CYAN
-
-    bullets_t1 = [
-        ("Guided Direct SIPs: ", "Filters by time horizon, not hype; steers novices to Direct index funds."),
-        ("NAV Anatomy: ", "Interactive 5Y charts prove dips are buying discounts, not lost money."),
-        ("50:30:20 Moat: ", "Prioritizes 3-month Liquid buffer before equity investing.")
-    ]
-    for b_title, b_desc in bullets_t1:
-        p = tf_t1.add_paragraph()
-        p.space_before = Pt(3)
-        r1 = p.add_run()
-        r1.text = "• " + b_title
-        r1.font.name = "Calibri"
-        r1.font.size = Pt(22)
-        r1.font.bold = True
-        r1.font.color.rgb = TEXT_WHITE
-        r2 = p.add_run()
-        r2.text = b_desc
-        r2.font.name = "Calibri"
-        r2.font.size = Pt(22)
-        r2.font.color.rgb = TEXT_MUTED
-
-    # --- TOP CARD 2: Where AI Earns Its Place vs Non-AI ---
-    add_card(c2_x, top_y, card_w, top_h, BORDER_MINT)
-    tb_t2 = slide.shapes.add_textbox(c2_x + Inches(0.18), top_y + Inches(0.12), card_w - Inches(0.36), top_h - Inches(0.24))
-    tf_t2 = tb_t2.text_frame
-    tf_t2.word_wrap = True
-    tf_t2.margin_left = tf_t2.margin_right = tf_t2.margin_top = tf_t2.margin_bottom = 0
-
-    p_t2_h = tf_t2.paragraphs[0]
-    p_t2_h.text = "2. Why AI Earns Its Place"
-    p_t2_h.font.name = "Calibri"
-    p_t2_h.font.size = Pt(24)
-    p_t2_h.font.bold = True
-    p_t2_h.font.color.rgb = BORDER_MINT
-
-    bullets_t2 = [
-        ("Empathetic De-escalation: ", "Intervenes during NAV drops with calm, personalized math."),
-        ("Dynamic Rupee Math: ", "Translates complex TER and tax rules to exact salary rupees."),
-        ("What Non-AI Misses: ", "Static FAQs give cold warnings that leave novices to churn.")
-    ]
-    for b_title, b_desc in bullets_t2:
-        p = tf_t2.add_paragraph()
-        p.space_before = Pt(3)
-        r1 = p.add_run()
-        r1.text = "• " + b_title
-        r1.font.name = "Calibri"
-        r1.font.size = Pt(22)
-        r1.font.bold = True
-        r1.font.color.rgb = TEXT_WHITE
-        r2 = p.add_run()
-        r2.text = b_desc
-        r2.font.name = "Calibri"
-        r2.font.size = Pt(22)
-        r2.font.color.rgb = TEXT_MUTED
-
-    # --- TOP CARD 3: Evals Engine & Regulatory Safeguards ---
-    add_card(c3_x, top_y, card_w, top_h, BORDER_BLUE)
-    tb_t3 = slide.shapes.add_textbox(c3_x + Inches(0.18), top_y + Inches(0.12), card_w - Inches(0.36), top_h - Inches(0.24))
-    tf_t3 = tb_t3.text_frame
-    tf_t3.word_wrap = True
-    tf_t3.margin_left = tf_t3.margin_right = tf_t3.margin_top = tf_t3.margin_bottom = 0
-
-    p_t3_h = tf_t3.paragraphs[0]
-    p_t3_h.text = "3. Regulatory Evals Engine"
-    p_t3_h.font.name = "Calibri"
-    p_t3_h.font.size = Pt(24)
-    p_t3_h.font.bold = True
-    p_t3_h.font.color.rgb = BORDER_BLUE
-
-    bullets_t3 = [
-        ("4-Gate Safety Pipeline: ", "Blocks stock tips, fund picks, FOMO urgency, and loan leverage."),
-        ("Auditable Badges: ", "Displays transparent compliance status on every response."),
-        ("Zero Hallucinations: ", "Grounded strictly in official SEBI circulars and AMFI standards.")
-    ]
-    for b_title, b_desc in bullets_t3:
-        p = tf_t3.add_paragraph()
-        p.space_before = Pt(3)
-        r1 = p.add_run()
-        r1.text = "• " + b_title
-        r1.font.name = "Calibri"
-        r1.font.size = Pt(22)
-        r1.font.bold = True
-        r1.font.color.rgb = TEXT_WHITE
-        r2 = p.add_run()
-        r2.text = b_desc
-        r2.font.name = "Calibri"
-        r2.font.size = Pt(22)
-        r2.font.color.rgb = TEXT_MUTED
-
-    # =========================================================================
-    # 3. SECTION HEADER FOR USABILITY TESTING
-    # =========================================================================
-    sec_y = Inches(4.03)
-    tb_sec = slide.shapes.add_textbox(Inches(0.5), sec_y, Inches(12.333), Inches(0.38))
-    tf_sec = tb_sec.text_frame
-    tf_sec.word_wrap = True
-    tf_sec.margin_left = tf_sec.margin_right = tf_sec.margin_top = tf_sec.margin_bottom = 0
-
-    p_sec = tf_sec.paragraphs[0]
-    p_sec.text = "4. Usability Testing: 3 User Personas & Constructive Feedback for Next Version (v2)"
-    p_sec.font.name = "Calibri"
-    p_sec.font.size = Pt(24)
-    p_sec.font.bold = True
-    p_sec.font.color.rgb = BORDER_AMBER
-
-    # =========================================================================
-    # 4. BOTTOM ROW (3 Authentic User Persona Cards)
-    # =========================================================================
-    bot_y = Inches(4.48)
-    bot_h = Inches(2.7)
-
-    personas = [
+    layers_data = [
+        # Row 1
         {
-            "name": "Aarav (20) • Student & Intern",
-            "border": BORDER_CYAN,
-            "context": "Context: Panicked over 2.8% Small Cap NAV drop.",
-            "feedback": "v2 Feedback: Add a past-crash recovery simulator to see how ₹500 SIPs bounced back, plus semester savings badges."
+            "layer": "Layer 1, Signal Ingestion:",
+            "desc": "Detects first-time 18–24 intent, monthly salary, and timeline to guide users away from hype.",
+            "col_idx": 0
         },
         {
-            "name": "Sneha (22) • First-Job QA Analyst",
-            "border": BORDER_MINT,
-            "context": "Context: Terrified of exit loads & 12.5% LTCG tax.",
-            "feedback": "v2 Feedback: Auto-sync SIP debit on salary day (the 2nd) before spending on Swiggy, and show post-tax rupee returns."
+            "layer": "Layer 2, Budget Moat:",
+            "desc": "Calculates 50:30:20 salary splits and mandates a 3-month liquid buffer before equity SIPs.",
+            "col_idx": 1
         },
         {
-            "name": "Rohan (24) • Operations Lead",
-            "border": BORDER_AMBER,
-            "context": "Context: Colleagues pushed high-risk penny stocks.",
-            "feedback": "v2 Feedback: Add a side-by-side simulator contrasting single-stock risk vs a Nifty 50 index fund to beat peer pressure."
+            "layer": "Layer 3, Masterclass Studio:",
+            "desc": "Renders 60 FPS motion graphics with neural voice narration and zero finance jargon.",
+            "col_idx": 2
+        },
+        {
+            "layer": "Layer 4, NAV Anatomy:",
+            "desc": "Contrasts 1-month noise with 5-year compounding to prove market dips are buying discounts.",
+            "col_idx": 3
+        },
+        {
+            "layer": "Layer 5, Benchmark Comparators:",
+            "desc": "Visualizes scheme performance against NIFTY 50 TRI, showing real alpha over market noise.",
+            "col_idx": 4
+        },
+        # Row 2
+        {
+            "layer": "Layer 6, Panic Interceptor:",
+            "desc": "Where AI earns its place: detects NAV drop panic and reassures users with rupee math.",
+            "col_idx": 0
+        },
+        {
+            "layer": "Layer 7, Financial Translator:",
+            "desc": "Where AI earns its place: converts complex TER, exit loads, and LTCG tax rules to exact salary rupees.",
+            "col_idx": 1
+        },
+        {
+            "layer": "Layer 8, SEBI RIA Guardrail:",
+            "desc": "Evals engine: intercepts specific fund advice and stock tips, enforcing objective frameworks.",
+            "col_idx": 2
+        },
+        {
+            "layer": "Layer 9, Hazard & FOMO Gate:",
+            "desc": "Evals engine: blocks dangerous borrowing, emergency fund depletion, and market peak urgency.",
+            "col_idx": 3
+        },
+        {
+            "layer": "Layer 10, Regulatory Grounding:",
+            "desc": "Evals engine: grounds claims in official AMFI standards and displays auditable safety badges.",
+            "col_idx": 4
         }
     ]
 
-    for idx, p_info in enumerate(personas):
-        px = c1_x if idx == 0 else (c2_x if idx == 1 else c3_x)
-        add_card(px, bot_y, card_w, bot_h, p_info["border"])
+    for idx, l_data in enumerate(layers_data):
+        row_y = row1_y if idx < 5 else row2_y
+        col_i = l_data["col_idx"]
+        card_x = start_x + col_i * (col_w + gap_x)
+        accent_color = COL_COLORS[col_i]
 
-        tb_p = slide.shapes.add_textbox(px + Inches(0.18), bot_y + Inches(0.12), card_w - Inches(0.36), bot_h - Inches(0.24))
-        tf_p = tb_p.text_frame
-        tf_p.word_wrap = True
-        tf_p.margin_left = tf_p.margin_right = tf_p.margin_top = tf_p.margin_bottom = 0
+        # Card shape
+        card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, card_x, row_y, col_w, card_h)
+        card.fill.solid()
+        card.fill.fore_color.rgb = CARD_BG
+        card.line.color.rgb = accent_color
+        card.line.width = Pt(1.5)
 
-        # Persona Header Name
-        p_name = tf_p.paragraphs[0]
-        p_name.text = p_info["name"]
-        p_name.font.name = "Calibri"
-        p_name.font.size = Pt(24)
-        p_name.font.bold = True
-        p_name.font.color.rgb = p_info["border"]
+        # Card Text Frame
+        tb = slide.shapes.add_textbox(card_x + Inches(0.12), row_y + Inches(0.1), col_w - Inches(0.24), card_h - Inches(0.2))
+        tf = tb.text_frame
+        tf.word_wrap = True
+        tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
 
-        # Context
-        p_ctx = tf_p.add_paragraph()
-        p_ctx.space_before = Pt(4)
-        p_ctx.text = p_info["context"]
-        p_ctx.font.name = "Calibri"
-        p_ctx.font.size = Pt(22)
-        p_ctx.font.color.rgb = TEXT_MUTED
+        # Layer Title (bold minimal: only title is bold, body is regular)
+        p_l = tf.paragraphs[0]
+        p_l.text = l_data["layer"]
+        p_l.font.name = "Calibri"
+        p_l.font.size = Pt(22)
+        p_l.font.bold = True
+        p_l.font.color.rgb = accent_color
 
-        # Constructive Feedback for v2
-        p_fb = tf_p.add_paragraph()
-        p_fb.space_before = Pt(6)
-        r_fb_tag = p_fb.add_run()
-        r_fb_tag.text = p_info["feedback"][:13]
-        r_fb_tag.font.name = "Calibri"
-        r_fb_tag.font.size = Pt(22)
-        r_fb_tag.font.bold = True
-        r_fb_tag.font.color.rgb = p_info["border"]
+        # Layer Description (regular text, not bold, saves space!)
+        p_d = tf.add_paragraph()
+        p_d.space_before = Pt(3)
+        p_d.text = l_data["desc"]
+        p_d.font.name = "Calibri"
+        p_d.font.size = Pt(22)
+        p_d.font.bold = False
+        p_d.font.color.rgb = TEXT_MUTED
 
-        r_fb_text = p_fb.add_run()
-        r_fb_text.text = p_info["feedback"][13:]
-        r_fb_text.font.name = "Calibri"
-        r_fb_text.font.size = Pt(22)
-        r_fb_text.font.color.rgb = TEXT_WHITE
-        r_fb_text.font.italic = True
+    # =========================================================================
+    # 3. BOTTOM SECTION: UAT FINDINGS & NEXT ITERATION (Matching reference slide)
+    # =========================================================================
+    uat_header_y = Inches(5.1)
+    tb_uath = slide.shapes.add_textbox(Inches(0.5), uat_header_y, Inches(3.0), Inches(0.35))
+    tf_uath = tb_uath.text_frame
+    tf_uath.word_wrap = True
+    tf_uath.margin_left = tf_uath.margin_right = tf_uath.margin_top = tf_uath.margin_bottom = 0
+
+    p_uath = tf_uath.paragraphs[0]
+    p_uath.text = "UAT"
+    p_uath.font.name = "Calibri"
+    p_uath.font.size = Pt(24)
+    p_uath.font.bold = True
+    p_uath.font.color.rgb = COL_COLORS[0] # Cyan
+
+    # UAT Box & Next Iteration Box Coordinates
+    uat_card_y = Inches(5.45)
+    uat_card_h = Inches(1.75)
+    uat_box_w = Inches(5.75)
+    next_box_w = Inches(5.75)
+    next_x = Inches(7.083)
+
+    # --- Left Card: UAT finding (3 user feedbacks) ---
+    card_uat = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.5), uat_card_y, uat_box_w, uat_card_h)
+    card_uat.fill.solid()
+    card_uat.fill.fore_color.rgb = CARD_BG
+    card_uat.line.color.rgb = COL_COLORS[0]
+    card_uat.line.width = Pt(1.5)
+
+    tb_uat_content = slide.shapes.add_textbox(Inches(0.65), uat_card_y + Inches(0.1), uat_box_w - Inches(0.3), uat_card_h - Inches(0.2))
+    tf_uat = tb_uat_content.text_frame
+    tf_uat.word_wrap = True
+    tf_uat.margin_left = tf_uat.margin_right = tf_uat.margin_top = tf_uat.margin_bottom = 0
+
+    p_uf_title = tf_uat.paragraphs[0]
+    p_uf_title.text = "UAT finding (3 user feedbacks):"
+    p_uf_title.font.name = "Calibri"
+    p_uf_title.font.size = Pt(22)
+    p_uf_title.font.bold = True
+    p_uf_title.font.color.rgb = COL_COLORS[0]
+
+    feedbacks = [
+        "• Want historical crash simulator to see how past SIPs recovered from dips.",
+        "• Auto-sync SIP debit with salary day on the 2nd before discretionary spending.",
+        "• Need side-by-side risk comparison of single-stock tips versus index funds."
+    ]
+    for fb in feedbacks:
+        p_fb = tf_uat.add_paragraph()
+        p_fb.space_before = Pt(2)
+        p_fb.text = fb
+        p_fb.font.name = "Calibri"
+        p_fb.font.size = Pt(22)
+        p_fb.font.bold = False
+        p_fb.font.color.rgb = TEXT_MUTED
+
+    # --- Middle Arrow Shape ---
+    arrow_x = Inches(6.38)
+    arrow_y = Inches(6.1)
+    arrow = slide.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, arrow_x, arrow_y, Inches(0.55), Inches(0.4))
+    arrow.fill.solid()
+    arrow.fill.fore_color.rgb = COL_COLORS[0]
+    arrow.line.color.rgb = COL_COLORS[0]
+
+    # --- Right Card: Next iteration ---
+    card_next = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, next_x, uat_card_y, next_box_w, uat_card_h)
+    card_next.fill.solid()
+    card_next.fill.fore_color.rgb = CARD_BG
+    card_next.line.color.rgb = COL_COLORS[1] # Mint Green
+    card_next.line.width = Pt(1.5)
+
+    tb_next_content = slide.shapes.add_textbox(next_x + Inches(0.15), uat_card_y + Inches(0.1), next_box_w - Inches(0.3), uat_card_h - Inches(0.2))
+    tf_next = tb_next_content.text_frame
+    tf_next.word_wrap = True
+    tf_next.margin_left = tf_next.margin_right = tf_next.margin_top = tf_next.margin_bottom = 0
+
+    p_ni_title = tf_next.paragraphs[0]
+    p_ni_title.text = "Next iteration:"
+    p_ni_title.font.name = "Calibri"
+    p_ni_title.font.size = Pt(22)
+    p_ni_title.font.bold = True
+    p_ni_title.font.color.rgb = COL_COLORS[1]
+
+    p_ni_body = tf_next.add_paragraph()
+    p_ni_body.space_before = Pt(2)
+    p_ni_body.text = "The system introduces a past-crash recovery visualizer to reassure investors during dips, enables salary-day auto-scheduling, and builds an interactive simulator contrasting stock tips against diversified index funds."
+    p_ni_body.font.name = "Calibri"
+    p_ni_body.font.size = Pt(22)
+    p_ni_body.font.bold = False
+    p_ni_body.font.color.rgb = TEXT_MUTED
 
     prs.save(filename)
-    print(f"Single-slide presentation successfully created: {filename}")
+    print(f"Presentation saved successfully: {filename}")
 
 if __name__ == "__main__":
-    build_single_slide_deck()
+    build_presentation()
