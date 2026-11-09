@@ -276,9 +276,13 @@ export const InvestmentGuide: React.FC<InvestmentGuideProps> = ({
       {/* ========================================================
           PERSISTENT "WENT THROUGH THE AI GUIDE?" NUDGE CARD
           ======================================================== */}
-      <div className="mt-8 p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-[#E6FAF4] via-[#F4FDF9] to-[#DEF7EE] dark:bg-gradient-to-br dark:from-[#13241F] dark:via-[#162923] dark:to-[#0F1E19] border border-[#00D09C]/40 shadow-sm transition-all hover:shadow-md">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="space-y-1.5 flex-1">
+      <div className="mt-8 p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-[#E6FAF4] via-[#F4FDF9] to-[#DEF7EE] dark:bg-gradient-to-br dark:from-[#13241F] dark:via-[#162923] dark:to-[#0F1E19] border border-[#00D09C]/40 shadow-sm transition-all hover:shadow-md relative overflow-hidden w-full">
+        {/* Ambient background glow */}
+        <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-[#00D09C]/15 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="space-y-3 relative z-10 w-full">
+          {/* Top Tag Row spanning full width */}
+          <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-2">
               <span className="p-1 rounded-lg bg-[#00D09C]/20 text-[#00875A] dark:text-[#00D09C]">
                 <Bot className="w-4 h-4" />
@@ -287,21 +291,29 @@ export const InvestmentGuide: React.FC<InvestmentGuideProps> = ({
                 AI Learning Companion
               </span>
             </div>
-            <h3 className="text-base sm:text-lg font-black text-gray-900 dark:text-white leading-snug">
-              Went through the AI guide and still have questions?
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl">
-              Ask AI Mitra! Get instant, zero-jargon answers to your specific doubts about personal finance budgeting, SIP dates, NAV charts, or tax rules.
-            </p>
+            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[#00875A] dark:text-[#00D09C] border border-[#00D09C]/30">
+              Interactive Copilot
+            </span>
           </div>
 
+          {/* Headline spanning full width horizontally */}
+          <h3 className="font-extrabold text-base sm:text-lg text-gray-900 dark:text-white leading-snug w-full">
+            Went through the AI guide and still have questions?
+          </h3>
+
+          {/* Description spanning full width horizontally */}
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed w-full">
+            Ask AI Mitra! Get instant, zero-jargon answers to your specific doubts about personal finance budgeting, SIP dates, NAV charts, or tax rules.
+          </p>
+
+          {/* Full-width Call To Action Button covering the screen horizontally */}
           <button
             onClick={() => onOpenAiMitra?.()}
-            className="shrink-0 flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#00D09C] hover:bg-emerald-400 text-black font-extrabold text-xs sm:text-sm shadow-md hover:scale-105 transition-all cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-[#00D09C] hover:bg-emerald-400 text-black font-extrabold text-xs sm:text-sm transition-all shadow-md shadow-emerald-500/20 active:scale-[0.99] group mt-1 cursor-pointer"
           >
             <Sparkles className="w-4 h-4" />
             <span>Ask AI Mitra</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>

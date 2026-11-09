@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Smartphone, Monitor, Sparkles, Sun, Moon } from 'lucide-react';
 
 interface DeviceFrameProps {
@@ -17,6 +17,39 @@ export const DeviceFrame: React.FC<DeviceFrameProps> = ({
   setIsDarkMode
 }) => {
   const [deviceMode, setDeviceMode] = useState<'mobile' | 'web'>('mobile');
+
+  // Detect whether viewer is on a mobile device or screen width < 768px
+  const [isMobileDevice, setIsMobileDevice] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const isSmall = window.innerWidth < 768;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      return isSmall || isMobileUA;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const isSmall = window.innerWidth < 768;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobileDevice(isSmall || isMobileUA);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // When viewed on a real mobile device (or viewport < 768px), directly render the native mobile app
+  // Without the emulator bezel, without dynamic island, without volume buttons, and without desktop headers
+  if (isMobileDevice) {
+    return (
+      <div className={`w-full min-h-screen min-h-[100dvh] flex flex-col ${
+        isDarkMode ? 'dark bg-[#121212] text-gray-100' : 'bg-white text-gray-900'
+      }`}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     // Outer page is ALWAYS crisp light mode - only the device screen inside turns dark when toggled

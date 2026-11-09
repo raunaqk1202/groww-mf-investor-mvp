@@ -300,9 +300,6 @@ I am your **SEBI-Compliant Mutual Fund Education Guide**. My mission is to teach
             <Send className="w-4 h-4" />
           </button>
         </form>
-        <p className="text-[10px] text-gray-400 text-center mt-1.5">
-          🔒 Guardrailed by SEBI Non-Recommendation & FOMO Prevention Filter.
-        </p>
       </div>
 
     </div>

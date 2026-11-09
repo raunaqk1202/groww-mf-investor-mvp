@@ -33,11 +33,17 @@ tsconfig.tsbuildinfo
 
 # Presentations & Deck Scripts
 *.pptx
+*.pdf
+Groww_*.png
 generate_deck.py
 test_*.py
 test_*.pptx
 
+build_*.py
 generate_*.py
 fix_*.py
 update_*.py
 verify_*.py
+slide_assets/
+processed_screens/
+process_*.py
